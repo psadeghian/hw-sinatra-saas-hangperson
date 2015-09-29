@@ -47,7 +47,7 @@ class HangpersonApp < Sinatra::Base
         flash[:message] = "You have already used that letter"
       end
     rescue ArgumentError
-      flash[:message] = "Please input a letter."
+      flash[:message] = "Please input a letter"
     end
     
     redirect '/show'

@@ -7,9 +7,45 @@ class HangpersonGame
 
   # def initialize()
   # end
+  attr_accessor :word, :guesses, :wrong_guesses#, :word_with_guesses
   
   def initialize(word)
     @word = word
+    @guesses = ""
+    @wrong_guesses = ""
+    #@word_with_guesses = word
+  end
+  
+  def guess(guess_letter)
+    raise ArgumentError if (guess_letter =~ /[[:alpha:]]/) == nil 
+    guess_letter.downcase!
+    return false if (@guesses.include?(guess_letter) || @wrong_guesses.include?(guess_letter))
+    
+    if @word.include?(guess_letter)
+      @guesses = @guesses + guess_letter
+      return true
+    else
+      @wrong_guesses = @wrong_guesses + guess_letter
+      return true
+    end
+  end
+  
+  def word_with_guesses
+    guessed_letters = @guesses
+    if guessed_letters == "" 
+      guessed_letters = guessed_letters + " "
+    end
+    @word.gsub(/[^#{guessed_letters}]/i,"-")
+  end
+  
+  def check_win_or_lose
+    if @word.downcase.chars.uniq.sort == @guesses.downcase.chars.uniq.sort
+      return :win
+    elsif @wrong_guesses.chars.uniq.size >= 7
+      return :lose
+    else 
+      return :play
+    end
   end
 
   def self.get_random_word

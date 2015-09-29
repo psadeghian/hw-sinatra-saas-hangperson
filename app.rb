@@ -83,7 +83,7 @@ class HangpersonApp < Sinatra::Base
     ### YOUR CODE HERE ###
     status = @game.check_win_or_lose
     if status != :lose
-      flash[:message] = "Why are you eager to lose?!"
+      flash[:message] = "Why are you so eager to lose?!"
       redirect '/show'
     end
     erb :lose # You may change/remove this line

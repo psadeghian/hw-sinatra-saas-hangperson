@@ -40,7 +40,10 @@ class HangpersonApp < Sinatra::Base
   post '/guess' do
     letter = params[:guess].to_s[0]
     ### YOUR CODE HERE ###
-    @game.guess(letter)
+    valid = @game.guess(letter)
+    if valid == false
+      flash[:message] = "You have already used that letter"
+    end
     redirect '/show'
   end
   
@@ -56,19 +59,27 @@ class HangpersonApp < Sinatra::Base
       redirect '/win'
     elsif status == :lose
       redirect '/lose'
-    else
-      
     end
     erb :show # You may change/remove this line
   end
   
   get '/win' do
     ### YOUR CODE HERE ###
+    status = @game.check_win_or_lose
+    if status != :win
+      flash[:message] = "Your IP will be reported to the FBI... Just kidding!"
+      redirect '/show'
+    end
     erb :win # You may change/remove this line
   end
   
   get '/lose' do
     ### YOUR CODE HERE ###
+    status = @game.check_win_or_lose
+    if status != :lose
+      flash[:message] = "Why are you eager to lose?!"
+      redirect '/show'
+    end
     erb :lose # You may change/remove this line
   end
   
